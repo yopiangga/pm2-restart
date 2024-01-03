@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "scripts": {
+    "start": "pm2 start app.js --name my-express-app",
+    "update": "git pull origin master && npm install && pm2 reload my-express-app",
+    "update-loop": "npm run check-shutdown && timeout /t 600 /nobreak && npm run update && npm run update-loop",
+    "check-shutdown": "pm2 describe my-express-app | grep -q '\"msg\":\"shutdown\"' && npm run shutdown",
+    "shutdown": "pm2 send my-express-app shutdown"
+  }
+}
